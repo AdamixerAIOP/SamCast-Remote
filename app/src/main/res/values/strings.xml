@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SamCast Remote</string>
+    <string name="bt_status_disconnected">No TV Connected</string>
+    <string name="bt_status_registering">Starting Bluetooth HID…</string>
+    <string name="bt_status_ready">Ready for TV Pairing</string>
+    <string name="bt_status_connecting">Connecting to %1$s…</string>
+    <string name="bt_status_connected">Connected • %1$s</string>
+    <string name="bt_status_unsupported">Bluetooth HID requires Android 9+</string>
+    <string name="bt_status_disabled">Bluetooth is turned off</string>
+    <string name="bt_status_permission_needed">Bluetooth permission needed</string>
+
+    <string name="cd_power">Power</string>
+    <string name="cd_settings_123">Settings, Numbers and Color Keys</string>
+    <string name="cd_voice">Voice Assistant</string>
+    <string name="cd_dpad_up">Navigate Up</string>
+    <string name="cd_dpad_down">Navigate Down</string>
+    <string name="cd_dpad_left">Navigate Left</string>
+    <string name="cd_dpad_right">Navigate Right</string>
+    <string name="cd_dpad_ok">Select / OK</string>
+    <string name="cd_back">Back</string>
+    <string name="cd_home">Smart Hub Home</string>
+    <string name="cd_play_pause">Play or Pause</string>
+    <string name="cd_volume_up">Volume Up</string>
+    <string name="cd_volume_down">Volume Down</string>
+    <string name="cd_volume_mute">Mute Audio</string>
+    <string name="cd_channel_up">Channel Up</string>
+    <string name="cd_channel_down">Channel Down</string>
+    <string name="cd_channel_guide">Channel Guide</string>
+    <string name="cd_samsung_tv_plus">Launch Samsung TV Plus</string>
+    <string name="cd_netflix">Launch Netflix</string>
+    <string name="cd_prime_video">Launch Prime Video</string>
+    <string name="cd_disney_plus">Launch Disney Plus</string>
+    <string name="cd_cast_button">Cast Screen Between Phone and TV</string>
+
+    <string name="cast_popup_title">Screen Cast Direction</string>
+    <string name="cast_popup_subtitle">Choose how you want to mirror screens between your phone and television.</string>
+    <string name="cast_phone_to_tv_title">Cast Phone to TV</string>
+    <string name="cast_phone_to_tv_desc">Share your phone display directly to your Samsung TV via MediaProjection &amp; Smart View.</string>
+    <string name="cast_tv_to_phone_title">Cast TV to Phone</string>
+    <string name="cast_tv_to_phone_desc">Open the local stream receiver to watch your TV feed directly on your phone.</string>
+
+    <string name="bt_sheet_title">Bluetooth TV Pairing</string>
+    <string name="bt_sheet_subtitle">Pair your phone as a Bluetooth Smart Remote in your TV\'s Bluetooth Device List.</string>
+    <string name="bt_make_discoverable">Make Phone Discoverable</string>
+    <string name="bt_scan_devices">Scan Nearby Bluetooth</string>
+    <string name="bt_enable_bluetooth">Turn On Bluetooth</string>
+    <string name="bt_grant_permissions">Grant Bluetooth Access</string>
+    <string name="bt_disconnect">Disconnect TV</string>
+    <string name="bt_bonded_devices">Paired Devices</string>
+    <string name="bt_discovered_devices">Nearby Devices</string>
+    <string name="bt_no_devices">No paired TVs found yet. Tap Make Phone Discoverable, then select this phone from your TV\'s Bluetooth settings.</string>
+
+    <string name="keypad_sheet_title">123 Keypad, Color &amp; Settings</string>
+    <string name="voice_listening">Listening… Speak a command or search query</string>
+    <string name="cast_notification_channel">Screen Cast Session</string>
+    <string name="cast_notification_title">Casting Phone Screen to TV</string>
+    <string name="cast_notification_text">Screen capture is active. Tap Stop to end casting.</string>
+    <string name="cast_stop">Stop Casting</string>
+</resources>

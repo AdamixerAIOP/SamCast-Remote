@@ -1,0 +1,6 @@
+{
+  "name": "SamCast Remote",
+  "description": "Bluetooth HID Samsung Smart Remote replica with bidirectional Phone-to-TV and TV-to-Phone casting.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
