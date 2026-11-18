@@ -190,14 +190,14 @@ fun PowerButton(
         testTag = "btn_power",
         onPressStart = onPressStart,
         onPressEnd = onPressEnd,
-        size = 50.dp,
+        size = 42.dp,
         glowColor = PowerCrimson
     ) {
         Icon(
             imageVector = Icons.Rounded.PowerSettingsNew,
             contentDescription = null,
             tint = PowerCrimson,
-            modifier = Modifier.size(24.dp)
+            modifier = Modifier.size(20.dp)
         )
     }
 }
@@ -214,18 +214,18 @@ fun Settings123Button(
         onPressStart = {},
         onPressEnd = {},
         onTapOverride = onClick,
-        size = 56.dp
+        size = 48.dp
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Canvas(modifier = Modifier.size(13.dp)) {
+            Canvas(modifier = Modifier.size(11.dp)) {
                 val r = size.minDimension / 2f
                 drawCircle(
                     color = TextPrimary,
                     radius = r * 0.65f,
-                    style = Stroke(width = 2.2f)
+                    style = Stroke(width = 2.0f)
                 )
                 for (i in 0 until 8) {
                     val angle = Math.toRadians(i * 45.0)
@@ -237,22 +237,22 @@ fun Settings123Button(
                         x = center.x + (r * kotlin.math.cos(angle)).toFloat(),
                         y = center.y + (r * kotlin.math.sin(angle)).toFloat()
                     )
-                    drawLine(TextPrimary, start, end, strokeWidth = 2.2f)
+                    drawLine(TextPrimary, start, end, strokeWidth = 2.0f)
                 }
             }
             Text(
                 text = "123",
                 color = TextPrimary,
-                fontSize = 11.sp,
+                fontSize = 10.sp,
                 fontWeight = FontWeight.Bold,
-                lineHeight = 12.sp
+                lineHeight = 11.sp
             )
-            Spacer(modifier = Modifier.height(2.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(3.dp)) {
+            Spacer(modifier = Modifier.height(1.5.dp))
+            Row(horizontalArrangement = Arrangement.spacedBy(2.5.dp)) {
                 listOf(DotRed, DotGreen, DotYellow, DotBlue).forEach { dotColor ->
                     Box(
                         modifier = Modifier
-                            .size(4.5.dp)
+                            .size(4.dp)
                             .clip(CircleShape)
                             .background(dotColor)
                     )
@@ -275,14 +275,14 @@ fun VoiceMicButton(
         onPressStart = {},
         onPressEnd = {},
         onTapOverride = onClick,
-        size = 56.dp,
+        size = 48.dp,
         glowColor = if (isListening) VoiceEmerald else null
     ) {
         Icon(
             imageVector = Icons.Outlined.Mic,
             contentDescription = null,
             tint = if (isListening) VoiceEmerald else TextPrimary,
-            modifier = Modifier.size(25.dp)
+            modifier = Modifier.size(22.dp)
         )
     }
 }
@@ -305,13 +305,12 @@ fun SamsungDpadRing(
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
-            .size(196.dp)
+            .size(144.dp)
             .shadow(10.dp, CircleShape, ambientColor = ButtonShadow, spotColor = ButtonShadow)
             .clip(CircleShape)
             .background(outerRingBrush)
             .border(1.2.dp, ButtonHighlight.copy(alpha = 0.7f), CircleShape)
     ) {
-        // Subtle inner directional cross indicator
         Canvas(modifier = Modifier.fillMaxSize()) {
             val active = pressedButton
             val highlight = AccentCyan.copy(alpha = 0.35f)
@@ -350,12 +349,12 @@ fun SamsungDpadRing(
             onPressEnd = onPressEnd,
             modifier = Modifier
                 .align(Alignment.TopCenter)
-                .padding(top = 4.dp)
-                .size(64.dp, 48.dp)
+                .padding(top = 2.dp)
+                .size(56.dp, 38.dp)
         ) {
             Box(
                 modifier = Modifier
-                    .size(6.dp, 2.5.dp)
+                    .size(5.dp, 2.dp)
                     .clip(RoundedCornerShape(2.dp))
                     .background(TextSecondary.copy(alpha = 0.55f))
             )
@@ -370,12 +369,12 @@ fun SamsungDpadRing(
             onPressEnd = onPressEnd,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(bottom = 4.dp)
-                .size(64.dp, 48.dp)
+                .padding(bottom = 2.dp)
+                .size(56.dp, 38.dp)
         ) {
             Box(
                 modifier = Modifier
-                    .size(6.dp, 2.5.dp)
+                    .size(5.dp, 2.dp)
                     .clip(RoundedCornerShape(2.dp))
                     .background(TextSecondary.copy(alpha = 0.55f))
             )
@@ -390,12 +389,12 @@ fun SamsungDpadRing(
             onPressEnd = onPressEnd,
             modifier = Modifier
                 .align(Alignment.CenterStart)
-                .padding(start = 4.dp)
-                .size(48.dp, 64.dp)
+                .padding(start = 2.dp)
+                .size(38.dp, 56.dp)
         ) {
             Box(
                 modifier = Modifier
-                    .size(2.5.dp, 6.dp)
+                    .size(2.dp, 5.dp)
                     .clip(RoundedCornerShape(2.dp))
                     .background(TextSecondary.copy(alpha = 0.55f))
             )
@@ -410,12 +409,12 @@ fun SamsungDpadRing(
             onPressEnd = onPressEnd,
             modifier = Modifier
                 .align(Alignment.CenterEnd)
-                .padding(end = 4.dp)
-                .size(48.dp, 64.dp)
+                .padding(end = 2.dp)
+                .size(38.dp, 56.dp)
         ) {
             Box(
                 modifier = Modifier
-                    .size(2.5.dp, 6.dp)
+                    .size(2.dp, 5.dp)
                     .clip(RoundedCornerShape(2.dp))
                     .background(TextSecondary.copy(alpha = 0.55f))
             )
@@ -428,12 +427,11 @@ fun SamsungDpadRing(
             testTag = "btn_dpad_ok",
             onPressStart = onPressStart,
             onPressEnd = onPressEnd,
-            size = 84.dp
+            size = 62.dp
         ) {
-            // Clean recessed center disc matching Samsung Smart Remote photo
             Box(
                 modifier = Modifier
-                    .size(72.dp)
+                    .size(52.dp)
                     .clip(CircleShape)
                     .border(0.75.dp, ButtonHighlight.copy(alpha = 0.3f), CircleShape)
             )
@@ -475,7 +473,7 @@ private fun DpadZone(
             .semantics { this.contentDescription = contentDescription }
             .clickable(
                 interactionSource = interactionSource,
-                indication = ripple(bounded = false, radius = 32.dp, color = AccentCyan),
+                indication = ripple(bounded = false, radius = 28.dp, color = AccentCyan),
                 role = Role.Button,
                 onClick = {
                     if (!hasPressed) {
@@ -499,7 +497,7 @@ fun NavigationMediaRow(
     cdPlayPause: String
 ) {
     Row(
-        horizontalArrangement = Arrangement.spacedBy(18.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         TactileRemoteButton(
@@ -508,13 +506,13 @@ fun NavigationMediaRow(
             testTag = "btn_back",
             onPressStart = onPressStart,
             onPressEnd = onPressEnd,
-            size = 54.dp
+            size = 46.dp
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Rounded.KeyboardReturn,
                 contentDescription = null,
                 tint = TextPrimary,
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(21.dp)
             )
         }
 
@@ -524,13 +522,13 @@ fun NavigationMediaRow(
             testTag = "btn_home",
             onPressStart = onPressStart,
             onPressEnd = onPressEnd,
-            size = 56.dp
+            size = 48.dp
         ) {
             Icon(
                 imageVector = Icons.Outlined.Home,
                 contentDescription = null,
                 tint = TextPrimary,
-                modifier = Modifier.size(26.dp)
+                modifier = Modifier.size(22.dp)
             )
         }
 
@@ -540,20 +538,20 @@ fun NavigationMediaRow(
             testTag = "btn_play_pause",
             onPressStart = onPressStart,
             onPressEnd = onPressEnd,
-            size = 54.dp
+            size = 46.dp
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
                     imageVector = Icons.Rounded.PlayArrow,
                     contentDescription = null,
                     tint = TextPrimary,
-                    modifier = Modifier.size(18.dp)
+                    modifier = Modifier.size(16.dp)
                 )
                 Icon(
                     imageVector = Icons.Rounded.Pause,
                     contentDescription = null,
                     tint = TextPrimary,
-                    modifier = Modifier.size(16.dp)
+                    modifier = Modifier.size(14.dp)
                 )
             }
         }
@@ -572,10 +570,9 @@ fun DualRockerControl(
     cdGuide: String
 ) {
     Row(
-        horizontalArrangement = Arrangement.spacedBy(20.dp),
+        horizontalArrangement = Arrangement.spacedBy(18.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Left Volume Rocker (+, bar mute, -)
         SingleRockerColumn(
             topButton = RemoteButton.VOL_UP,
             centerButton = RemoteButton.MUTE,
@@ -592,7 +589,7 @@ fun DualRockerControl(
                 Text(
                     text = "+",
                     color = TextSecondary,
-                    fontSize = 24.sp,
+                    fontSize = 21.sp,
                     fontWeight = FontWeight.Light
                 )
             },
@@ -600,13 +597,12 @@ fun DualRockerControl(
                 Text(
                     text = "−",
                     color = TextSecondary,
-                    fontSize = 24.sp,
+                    fontSize = 21.sp,
                     fontWeight = FontWeight.Light
                 )
             }
         )
 
-        // Right Channel Rocker (^, bar guide, v)
         SingleRockerColumn(
             topButton = RemoteButton.CH_UP,
             centerButton = RemoteButton.CH_GUIDE,
@@ -624,7 +620,7 @@ fun DualRockerControl(
                     imageVector = Icons.Rounded.KeyboardArrowUp,
                     contentDescription = null,
                     tint = TextSecondary,
-                    modifier = Modifier.size(26.dp)
+                    modifier = Modifier.size(23.dp)
                 )
             },
             bottomContent = {
@@ -632,7 +628,7 @@ fun DualRockerControl(
                     imageVector = Icons.Rounded.KeyboardArrowDown,
                     contentDescription = null,
                     tint = TextSecondary,
-                    modifier = Modifier.size(26.dp)
+                    modifier = Modifier.size(23.dp)
                 )
             }
         )
@@ -657,7 +653,7 @@ private fun SingleRockerColumn(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.width(84.dp)
+        modifier = Modifier.width(74.dp)
     ) {
         RockerTapZone(
             button = topButton,
@@ -667,12 +663,11 @@ private fun SingleRockerColumn(
             onPressEnd = onPressEnd,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(48.dp)
+                .height(36.dp)
         ) {
             topContent()
         }
 
-        // Physical metallic rocker bar (tap center for Mute / Guide)
         RockerTapZone(
             button = centerButton,
             contentDescription = centerCd,
@@ -681,16 +676,16 @@ private fun SingleRockerColumn(
             onPressEnd = onPressEnd,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(28.dp)
+                .height(22.dp)
         ) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(10.dp)
-                    .shadow(4.dp, RoundedCornerShape(5.dp))
-                    .clip(RoundedCornerShape(5.dp))
+                    .height(8.dp)
+                    .shadow(4.dp, RoundedCornerShape(4.dp))
+                    .clip(RoundedCornerShape(4.dp))
                     .background(Brush.verticalGradient(listOf(RockerBarTop, RockerBarBottom)))
-                    .border(0.6.dp, ButtonHighlight, RoundedCornerShape(5.dp))
+                    .border(0.6.dp, ButtonHighlight, RoundedCornerShape(4.dp))
             )
         }
 
@@ -702,7 +697,7 @@ private fun SingleRockerColumn(
             onPressEnd = onPressEnd,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(48.dp)
+                .height(36.dp)
         ) {
             bottomContent()
         }
@@ -738,7 +733,7 @@ private fun RockerTapZone(
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
-            .clip(RoundedCornerShape(12.dp))
+            .clip(RoundedCornerShape(10.dp))
             .testTag(testTag)
             .semantics { this.contentDescription = contentDescription }
             .clickable(
@@ -769,31 +764,29 @@ fun AppShortcutDiamond(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy((-6).dp)
+        verticalArrangement = Arrangement.spacedBy((-8).dp)
     ) {
-        // Top Center: Samsung TV Plus
         TactileRemoteButton(
             button = RemoteButton.SAMSUNG_TV_PLUS,
             contentDescription = cdSamsungTvPlus,
             testTag = "btn_samsung_tv_plus",
             onPressStart = onPressStart,
             onPressEnd = onPressEnd,
-            size = 54.dp,
+            size = 44.dp,
             glowColor = SamsungTvCyan
         ) {
             Text(
                 text = "Samsung\nTV Plus",
                 color = TextPrimary,
-                fontSize = 8.5.sp,
-                lineHeight = 10.sp,
+                fontSize = 7.5.sp,
+                lineHeight = 8.5.sp,
                 fontWeight = FontWeight.SemiBold,
                 textAlign = TextAlign.Center
             )
         }
 
-        // Middle Row: Netflix (left) and Prime Video (right)
         Row(
-            horizontalArrangement = Arrangement.spacedBy(52.dp),
+            horizontalArrangement = Arrangement.spacedBy(42.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             TactileRemoteButton(
@@ -802,15 +795,15 @@ fun AppShortcutDiamond(
                 testTag = "btn_netflix",
                 onPressStart = onPressStart,
                 onPressEnd = onPressEnd,
-                size = 54.dp,
+                size = 44.dp,
                 glowColor = NetflixRed
             ) {
                 Text(
                     text = "NETFLIX",
                     color = TextPrimary,
-                    fontSize = 9.5.sp,
+                    fontSize = 8.sp,
                     fontWeight = FontWeight.ExtraBold,
-                    letterSpacing = 0.5.sp
+                    letterSpacing = 0.4.sp
                 )
             }
 
@@ -820,36 +813,33 @@ fun AppShortcutDiamond(
                 testTag = "btn_prime_video",
                 onPressStart = onPressStart,
                 onPressEnd = onPressEnd,
-                size = 54.dp,
+                size = 44.dp,
                 glowColor = PrimeBlue
             ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(
-                        text = "prime\nvideo",
-                        color = TextPrimary,
-                        fontSize = 9.sp,
-                        lineHeight = 9.5.sp,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center
-                    )
-                }
+                Text(
+                    text = "prime\nvideo",
+                    color = TextPrimary,
+                    fontSize = 8.sp,
+                    lineHeight = 8.5.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
+                )
             }
         }
 
-        // Bottom Center: Disney+
         TactileRemoteButton(
             button = RemoteButton.DISNEY_PLUS,
             contentDescription = cdDisneyPlus,
             testTag = "btn_disney_plus",
             onPressStart = onPressStart,
             onPressEnd = onPressEnd,
-            size = 54.dp,
+            size = 44.dp,
             glowColor = DisneyCyan
         ) {
             Text(
                 text = "Disney+",
                 color = TextPrimary,
-                fontSize = 9.5.sp,
+                fontSize = 8.5.sp,
                 fontWeight = FontWeight.Bold
             )
         }
@@ -863,15 +853,14 @@ fun CastActionButton(
     contentDescription: String
 ) {
     val haptic = LocalHapticFeedback.current
-    val shape = RoundedCornerShape(24.dp)
+    val shape = RoundedCornerShape(20.dp)
     val glow = if (isCastActive) AccentCyan else AccentCyan.copy(alpha = 0.45f)
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier
-            .minimumInteractiveComponentSize()
-            .height(48.dp)
+            .height(38.dp)
             .shadow(
                 elevation = if (isCastActive) 10.dp else 4.dp,
                 shape = shape,
@@ -896,18 +885,19 @@ fun CastActionButton(
                     onClick()
                 }
             )
-            .padding(horizontal = 22.dp)
+            .padding(horizontal = 18.dp)
     ) {
         Icon(
             imageVector = if (isCastActive) Icons.Rounded.CastConnected else Icons.Rounded.Cast,
             contentDescription = null,
             tint = AccentCyan,
-            modifier = Modifier.size(20.dp)
+            modifier = Modifier.size(17.dp)
         )
-        Spacer(modifier = Modifier.width(8.dp))
+        Spacer(modifier = Modifier.width(7.dp))
         Text(
             text = if (isCastActive) "CAST ACTIVE" else "CAST",
             style = MaterialTheme.typography.labelLarge,
+            fontSize = 12.sp,
             color = if (isCastActive) AccentCyan else TextPrimary
         )
     }

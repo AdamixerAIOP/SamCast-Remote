@@ -8,6 +8,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,10 +21,8 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Bluetooth
 import androidx.compose.material.icons.rounded.BluetoothConnected
@@ -44,6 +43,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -134,17 +134,16 @@ fun RemoteScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 16.dp, vertical = 10.dp)
+                    .padding(horizontal = 16.dp, vertical = 6.dp)
             ) {
                 // Top Bluetooth Status Bar
                 BluetoothStatusBar(
                     hidState = uiState.hidState,
                     onClick = onOpenBluetoothSheet,
-                    modifier = Modifier.widthIn(max = 420.dp)
+                    modifier = Modifier.widthIn(max = 360.dp)
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(6.dp))
 
                 // Active Voice or Phone-to-TV Cast Status Strip
                 AnimatedVisibility(
@@ -170,165 +169,174 @@ fun RemoteScreen(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(6.dp))
-
-                // Matte Black Samsung Smart Remote Chassis
-                Box(
+                // Responsive Remote Container: auto-fits height so whole remote is visible on any phone
+                BoxWithConstraints(
+                    contentAlignment = Alignment.Center,
                     modifier = Modifier
-                        .widthIn(min = 276.dp, max = 312.dp)
+                        .weight(1f)
                         .fillMaxWidth()
-                        .shadow(
-                            elevation = 24.dp,
-                            shape = RoundedCornerShape(40.dp),
-                            ambientColor = Color.Black,
-                            spotColor = Color.Black
-                        )
-                        .clip(RoundedCornerShape(40.dp))
-                        .background(
-                            Brush.verticalGradient(
-                                listOf(RemoteChassisTop, RemoteChassisBottom)
-                            )
-                        )
-                        .border(1.2.dp, RemoteChassisBorder, RoundedCornerShape(40.dp))
-                        .padding(horizontal = 24.dp, vertical = 22.dp)
                 ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.fillMaxWidth()
+                    val designRemoteHeightDp = 644f
+                    val fitScale = (maxHeight.value / designRemoteHeightDp).coerceIn(0.68f, 1.0f)
+
+                    Box(
+                        modifier = Modifier
+                            .graphicsLayer {
+                                scaleX = fitScale
+                                scaleY = fitScale
+                            }
+                            .width(248.dp)
+                            .shadow(
+                                elevation = 20.dp,
+                                shape = RoundedCornerShape(34.dp),
+                                ambientColor = Color.Black,
+                                spotColor = Color.Black
+                            )
+                            .clip(RoundedCornerShape(34.dp))
+                            .background(
+                                Brush.verticalGradient(
+                                    listOf(RemoteChassisTop, RemoteChassisBottom)
+                                )
+                            )
+                            .border(1.2.dp, RemoteChassisBorder, RoundedCornerShape(34.dp))
+                            .padding(horizontal = 20.dp, vertical = 14.dp)
                     ) {
-                        // Row 1: Power button top-left
-                        Row(
-                            horizontalArrangement = Arrangement.Start,
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier.fillMaxWidth()
                         ) {
-                            PowerButton(
+                            // Row 1: Power button top-left
+                            Row(
+                                horizontalArrangement = Arrangement.Start,
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                PowerButton(
+                                    onPressStart = onButtonPressStart,
+                                    onPressEnd = onButtonPressEnd,
+                                    contentDescription = stringResource(R.string.cd_power)
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.height(6.dp))
+
+                            // Row 2: 123/Settings (left), Mic LED pinhole (center), Voice Mic (right)
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Settings123Button(
+                                    onClick = onSettings123Click,
+                                    contentDescription = stringResource(R.string.cd_settings_123)
+                                )
+
+                                Box(
+                                    modifier = Modifier
+                                        .size(5.dp)
+                                        .clip(CircleShape)
+                                        .background(
+                                            when (uiState.voiceState) {
+                                                is VoiceState.Listening -> VoiceEmerald
+                                                is VoiceState.SendingText -> AccentCyan
+                                                else -> Color(0xFF0A0B0E)
+                                            }
+                                        )
+                                )
+
+                                VoiceMicButton(
+                                    isListening = uiState.voiceState is VoiceState.Listening,
+                                    onClick = onVoiceClick,
+                                    contentDescription = stringResource(R.string.cd_voice)
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.height(10.dp))
+
+                            // Row 3: Circular D-Pad + Center OK
+                            SamsungDpadRing(
+                                pressedButton = uiState.pressedButton,
                                 onPressStart = onButtonPressStart,
                                 onPressEnd = onButtonPressEnd,
-                                contentDescription = stringResource(R.string.cd_power)
+                                cdUp = stringResource(R.string.cd_dpad_up),
+                                cdDown = stringResource(R.string.cd_dpad_down),
+                                cdLeft = stringResource(R.string.cd_dpad_left),
+                                cdRight = stringResource(R.string.cd_dpad_right),
+                                cdOk = stringResource(R.string.cd_dpad_ok)
+                            )
+
+                            Spacer(modifier = Modifier.height(10.dp))
+
+                            // Row 4: Back, Home, Play/Pause
+                            NavigationMediaRow(
+                                onPressStart = onButtonPressStart,
+                                onPressEnd = onButtonPressEnd,
+                                cdBack = stringResource(R.string.cd_back),
+                                cdHome = stringResource(R.string.cd_home),
+                                cdPlayPause = stringResource(R.string.cd_play_pause)
+                            )
+
+                            Spacer(modifier = Modifier.height(10.dp))
+
+                            // Row 5: Dual Metallic Volume & Channel Rocker Bar
+                            DualRockerControl(
+                                onPressStart = onButtonPressStart,
+                                onPressEnd = onButtonPressEnd,
+                                cdVolUp = stringResource(R.string.cd_volume_up),
+                                cdVolDown = stringResource(R.string.cd_volume_down),
+                                cdMute = stringResource(R.string.cd_volume_mute),
+                                cdChUp = stringResource(R.string.cd_channel_up),
+                                cdChDown = stringResource(R.string.cd_channel_down),
+                                cdGuide = stringResource(R.string.cd_channel_guide)
+                            )
+
+                            Spacer(modifier = Modifier.height(10.dp))
+
+                            // Row 6: App Shortcut Diamond (Samsung TV Plus, Netflix, Prime Video, Disney+)
+                            AppShortcutDiamond(
+                                onPressStart = onButtonPressStart,
+                                onPressEnd = onButtonPressEnd,
+                                cdSamsungTvPlus = stringResource(R.string.cd_samsung_tv_plus),
+                                cdNetflix = stringResource(R.string.cd_netflix),
+                                cdPrimeVideo = stringResource(R.string.cd_prime_video),
+                                cdDisneyPlus = stringResource(R.string.cd_disney_plus)
+                            )
+
+                            Spacer(modifier = Modifier.height(10.dp))
+
+                            // Row 7: Dedicated Cast Button (triggers Phone <-> TV popup)
+                            CastActionButton(
+                                isCastActive = isCastActive,
+                                onClick = onCastClick,
+                                contentDescription = stringResource(R.string.cd_cast_button)
+                            )
+
+                            Spacer(modifier = Modifier.height(10.dp))
+
+                            // Bottom Hardware Wordmark matching photo
+                            Text(
+                                text = "SAMSUNG",
+                                color = Color(0xFF9CA3AF),
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.Bold,
+                                letterSpacing = 2.5.sp
                             )
                         }
-
-                        Spacer(modifier = Modifier.height(10.dp))
-
-                        // Row 2: 123/Settings (left), Mic LED pinhole (center), Voice Mic (right)
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Settings123Button(
-                                onClick = onSettings123Click,
-                                contentDescription = stringResource(R.string.cd_settings_123)
-                            )
-
-                            // Mic pinhole indicator matching physical remote photo
-                            Box(
-                                modifier = Modifier
-                                    .size(6.dp)
-                                    .clip(CircleShape)
-                                    .background(
-                                        when (uiState.voiceState) {
-                                            is VoiceState.Listening -> VoiceEmerald
-                                            is VoiceState.SendingText -> AccentCyan
-                                            else -> Color(0xFF0A0B0E)
-                                        }
-                                    )
-                            )
-
-                            VoiceMicButton(
-                                isListening = uiState.voiceState is VoiceState.Listening,
-                                onClick = onVoiceClick,
-                                contentDescription = stringResource(R.string.cd_voice)
-                            )
-                        }
-
-                        Spacer(modifier = Modifier.height(18.dp))
-
-                        // Row 3: Circular D-Pad + Center OK
-                        SamsungDpadRing(
-                            pressedButton = uiState.pressedButton,
-                            onPressStart = onButtonPressStart,
-                            onPressEnd = onButtonPressEnd,
-                            cdUp = stringResource(R.string.cd_dpad_up),
-                            cdDown = stringResource(R.string.cd_dpad_down),
-                            cdLeft = stringResource(R.string.cd_dpad_left),
-                            cdRight = stringResource(R.string.cd_dpad_right),
-                            cdOk = stringResource(R.string.cd_dpad_ok)
-                        )
-
-                        Spacer(modifier = Modifier.height(20.dp))
-
-                        // Row 4: Back, Home, Play/Pause
-                        NavigationMediaRow(
-                            onPressStart = onButtonPressStart,
-                            onPressEnd = onButtonPressEnd,
-                            cdBack = stringResource(R.string.cd_back),
-                            cdHome = stringResource(R.string.cd_home),
-                            cdPlayPause = stringResource(R.string.cd_play_pause)
-                        )
-
-                        Spacer(modifier = Modifier.height(18.dp))
-
-                        // Row 5: Dual Metallic Volume & Channel Rocker Bar
-                        DualRockerControl(
-                            onPressStart = onButtonPressStart,
-                            onPressEnd = onButtonPressEnd,
-                            cdVolUp = stringResource(R.string.cd_volume_up),
-                            cdVolDown = stringResource(R.string.cd_volume_down),
-                            cdMute = stringResource(R.string.cd_volume_mute),
-                            cdChUp = stringResource(R.string.cd_channel_up),
-                            cdChDown = stringResource(R.string.cd_channel_down),
-                            cdGuide = stringResource(R.string.cd_channel_guide)
-                        )
-
-                        Spacer(modifier = Modifier.height(18.dp))
-
-                        // Row 6: App Shortcut Diamond (Samsung TV Plus, Netflix, Prime Video, Disney+)
-                        AppShortcutDiamond(
-                            onPressStart = onButtonPressStart,
-                            onPressEnd = onButtonPressEnd,
-                            cdSamsungTvPlus = stringResource(R.string.cd_samsung_tv_plus),
-                            cdNetflix = stringResource(R.string.cd_netflix),
-                            cdPrimeVideo = stringResource(R.string.cd_prime_video),
-                            cdDisneyPlus = stringResource(R.string.cd_disney_plus)
-                        )
-
-                        Spacer(modifier = Modifier.height(18.dp))
-
-                        // Row 7: Dedicated Cast Button (triggers Phone <-> TV popup)
-                        CastActionButton(
-                            isCastActive = isCastActive,
-                            onClick = onCastClick,
-                            contentDescription = stringResource(R.string.cd_cast_button)
-                        )
-
-                        Spacer(modifier = Modifier.height(20.dp))
-
-                        // Bottom Hardware Wordmark matching photo
-                        Text(
-                            text = "SAMSUNG",
-                            color = Color(0xFF9CA3AF),
-                            fontSize = 13.sp,
-                            fontWeight = FontWeight.Bold,
-                            letterSpacing = 3.sp
-                        )
                     }
                 }
 
-                Spacer(modifier = Modifier.height(12.dp))
-
                 // Subtle command feedback footer
                 uiState.lastCommandLabel?.let { feedback ->
+                    Spacer(modifier = Modifier.height(4.dp))
                     Surface(
                         color = ButtonSurface.copy(alpha = 0.85f),
-                        shape = RoundedCornerShape(16.dp),
+                        shape = RoundedCornerShape(14.dp),
                         modifier = Modifier.testTag("text_last_command")
                     ) {
                         Text(
                             text = feedback,
                             style = MaterialTheme.typography.labelSmall,
                             color = if (uiState.lastCommandSuccess) AccentCyan else TextSecondary,
-                            modifier = Modifier.padding(horizontal = 14.dp, vertical = 7.dp)
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 5.dp)
                         )
                     }
                 }
